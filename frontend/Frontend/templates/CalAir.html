@@ -1,0 +1,284 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+    <!-- vue script -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <title>CalAir</title>
+</head>
+
+<body>
+    <img id="test" src="{{ url_for('static', filename='assets/bg_1.jpg') }}" alt="" />
+    <div id="app">
+        <div class="wrapper">
+            <div class="main_content">
+                <div class="header">
+                    <router-link to="/">
+                        <div class="logo">
+                            <a href="Home.html">
+                                <img src="{{ url_for('static', filename='assets/logo_1.png') }}" alt="" width="60"
+                                    height="60" /></a>
+                        </div>
+                    </router-link>
+                </div>
+                <div class="info">
+                    <div class="columns">
+                        <div class="column is-5 is-offset-1">
+                            <div class="box" id="box-main-ca">
+                                <p id="box-p" style="font-size: 40px; color: rgb(50, 50, 50);">กำหนดค่า</p>
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label" style="font-size: 20px; color: rgb(50, 50, 50);">ค่า
+                                                BTU</label>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="control">
+                                                <div class="select">
+                                                    <select v-model="Btu"
+                                                        style="background-color: transparent!important; color: black; border: 2px solid rgba(0, 0, 0, 0.5);">
+                                                        <option value="9000">9000</option>
+                                                        <option value="12000">12000</option>
+                                                        <option value="15000">15000</option>
+                                                        <option value="18000">18000</option>
+                                                        <option value="20400">20400</option>
+                                                        <option value="22000">22000</option>
+                                                        <option value="24000">24000</option>
+                                                        <option value="25000">25000</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label"
+                                                style="font-size: 20px; color: rgb(50, 50, 50);">อุณหภูมิภายในห้อง</label>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label"
+                                                style="font-size: 20px; color: rgb(50, 50, 50);">26</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label"
+                                                style="font-size: 20px; color: rgb(50, 50, 50);">อุณหภูมิภายนอกห้อง</label>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="control">
+                                                <input v-model="temperatureOut" class="input" type="text"
+                                                    placeholder="Text input"
+                                                    style="background-color: transparent!important; color: black; border: 2px solid rgba(0, 0, 0, 0.5);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label"
+                                                style="font-size: 20px; color: rgb(50, 50, 50);">จำนวนการใช้งาน
+                                                ชั่วโมงต่อวัน</label>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="control">
+                                                <input v-model="time" class="input" type="number"
+                                                    placeholder="Text input"
+                                                    style="background-color: transparent!important; color: black; border: 2px solid rgba(0, 0, 0, 0.5);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="column" style="text-align: center;">
+                                    <div class="field">
+                                        <div class="control">
+                                            <button class="button" id="btn-ca" @click="calpriceair()"
+                                                style="font-family: 'Chakra Petch', sans-serif; font-size: 16px; font-weight: bold;">คำนวนค่าไฟฟ้า</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="column is-2 is-offset-2">
+                            <div class="box" style="background-color: beige; border-radius: 2px; margin-top: 30%;">
+                                <p id="box-p" style="border-top: 1px solid rgb(138, 138, 138);"></p>
+                                <p id="box-p"
+                                    style="font-size: 18px; border-bottom: 1px solid rgb(138, 138, 138); border-top: 1px solid rgb(138, 138, 138); padding-bottom: 4px; padding-top: 4px;">
+                                    ค่าแอร์ที่คุณต้องจ่ายต่อเดือน</p>
+                                <p id="box-p" style="border-bottom: 1px solid rgb(138, 138, 138);"></p>
+                                <p id="box-p"
+                                    style="font-size: 18px; border-bottom: 1px solid rgb(138, 138, 138); padding-bottom: 4px; padding-top: 4px;">
+                                    {{'{{pricepertemper.toFixed(2)}}'}} บาท</p>
+                                <p id="box-p" style="border-bottom: 1px solid rgb(138, 138, 138);"></p>
+                                <p id="box-p" style="border-bottom: 1px solid rgb(138, 138, 138);"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const { createApp } = Vue
+        createApp({
+            name: "CalAir",
+            data() {
+                return {
+                    temperatureOut: 0,
+                    Btu: 0,
+                    price: 0,
+                    time: 0,
+                    unit: 0,
+                    pricepertemper: 0,
+                    oldtem: 0,
+                }
+            },
+            methods: {
+                calpriceair() {
+                    console.log("9")
+                    this.unit = this.Btu / 15.74 / 1000 * this.time * 30
+                    if (this.unit <= 15) {
+                        this.price = this.unit * 2.35
+                    } else if (this.unit <= 25) {
+                        this.price = (this.unit - 15) * 3 + 23.5
+                    } else if (this.unit <= 35) {
+                        this.price = (this.unit - 25) * 3.24 + 53.5
+                    } else if (this.unit <= 100) {
+                        this.price = (this.unit - 35) * 3.62 + 85.9
+                    } else if (this.unit <= 150) {
+                        this.price = (this.unit - 100) * 3.71 + 321.2
+                    } else if (this.unit <= 400) {
+                        this.price = (this.unit - 150) * 4.22 + 506.7
+                    } else {
+                        this.price = (this.unit - 400) * 4.42 + 1561.7
+                    }
+                    if (this.temperatureOut == 35) {
+                        this.pricepertemper = this.price
+                    }
+                    if (this.temperatureOut >= 36) {
+                        this.pricepertemper = this.price + (this.price * 3 / 100)
+                        this.oldtem = this.pricepertemper
+                    } if (this.temperatureOut >= 37) {
+                        this.pricepertemper = this.oldtem + (this.oldtem * 3 / 100)
+                        this.oldtem = this.pricepertemper
+                    }
+                    if (this.temperatureOut >= 38) {
+                        this.pricepertemper = this.oldtem + (this.oldtem * 3 / 100)
+                        this.oldtem = this.pricepertemper
+                    }
+                    if (this.temperatureOut >= 39) {
+                        this.pricepertemper = this.oldtem + (this.oldtem * 3 / 100)
+                        this.oldtem = this.pricepertemper
+                    }
+                    if (this.temperatureOut >= 40) {
+                        this.pricepertemper = this.oldtem + (this.oldtem * 3 / 100)
+                        this.oldtem = this.pricepertemper
+                    }
+                    if (this.temperatureOut >= 41) {
+                        this.pricepertemper = this.oldtem + (this.oldtem * 3 / 100)
+                        this.oldtem = this.pricepertemper
+                    }
+                }
+            }
+        }).mount('#app')
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            list-style: none;
+            text-decoration: none;
+            font-family: 'Chakra Petch', sans-serif;
+        }
+
+        #test {
+            height: 100%;
+            width: 100%;
+            background-size: cover;
+            position: fixed;
+            z-index: -1;
+        }
+
+        /* 
+        body {
+            background-image: linear-gradient(to bottom,
+                    rgba(18, 18, 17, 0.5),
+                    rgba(220, 228, 199, 0.5)), url("../assets/bg_1.jpg");
+            height: 100%;
+            width: 100%;
+            background-size: cover;
+            position: fixed;
+        } */
+
+        .logo {
+            color: #fff;
+            text-transform: uppercase;
+            text-align: center;
+            cursor: pointer;
+            padding-top: 15px;
+            transition: rotate 1s;
+        }
+
+        .logo:hover {
+            rotate: 180deg;
+        }
+
+        .main_content {
+            width: 100%;
+        }
+
+        #box-p {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            padding-bottom: 30px;
+        }
+
+        .info {
+            margin-top: 150px;
+        }
+
+        #box-main-ca {
+            background-color: #ebdddd57;
+            border: 6px solid rgba(255, 255, 255, 0.5);
+            margin-bottom: 100px;
+        }
+
+        #btn-ca {
+            background-color: #bfbfc2fc;
+            border: 4px solid rgba(41, 40, 40, 0.689);
+            color: black;
+        }
+
+        #btn-ca:hover {
+            background-color: #555556fc;
+            border: 4px solid rgba(25, 24, 24, 0.689);
+            color: rgb(138, 138, 138);
+        }
+    </style>
+</body>
+
+</html>

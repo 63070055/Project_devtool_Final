@@ -1,0 +1,361 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+    <!-- vue script -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <title>CalElectic</title>
+</head>
+
+<body>
+    <img id="test" src="{{ url_for('static', filename='assets/bg_1.jpg') }}" alt=""/>
+    <div id="app">
+        <div class="wrapper">
+            <div class="main_content">
+                <div class="header">
+                    <router-link to="/">
+                        <div class="logo">
+                            <a href="Home.html">
+                            <img src="{{ url_for('static', filename='assets/logo_1.png') }}" alt="" width="60" height="60" /></a>
+                        </div>
+                    </router-link>
+                </div>
+                <div class="info" id="info-calelec">
+                    <div class="columns" style="text-align: center;">
+                        <div class="column is-2 is-offset-3">
+                            <div class="box" id="box-top-ce">
+                                <p id="box-calelec" style="padding-bottom: 10px; border-bottom: 2px solid darkgray;">
+                                    จำนวนยูนิต/เดือน</p>
+                                <p id="box-calelec" style="padding-top: 10px;">{{'{{sumunit.toFixed(2)}}'}} Unit</p>
+                            </div>
+
+                        </div>
+                        <div class="column is-2 is-offset-3">
+                            <div class="box" id="box-top-ce">
+                                <p id="box-calelec" style="padding-bottom: 10px; border-bottom: 2px solid darkgray;">
+                                    ราคา/เดือน</p>
+                                <p id="box-calelec" style="padding-top: 10px;">{{'{{price.toFixed(2)}}'}} Bath</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="columns">
+                        <div class="column">
+                            <p id="btn-add-list" @click="addList()">+</p>
+                        </div>
+                    </div>
+
+                    <div v-if="showmodal" class="box" id="box-cen-ce">
+                        <div class="columns">
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <label class="label" style="color: #d6d4d4fc;">ชื่อเครื่องใช้ไฟฟ้า</label>
+                                    <div class="control">
+                                        <input v-model="addname" class="input" type="text" placeholder="Text input"
+                                            style="background-color: transparent!important; color: white ">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <label class="label" style="color: #d6d4d4fc;">กำลังไฟ (วัตต์)</label>
+                                    <div class="control">
+                                        <input v-model="addpower" class="input" type="number" placeholder="Text input"
+                                            style="background-color: transparent!important; color: white">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <label class="label" style="color: #d6d4d4fc;">จำนวน</label>
+                                    <div class="control">
+                                        <input v-model="addquantity" class="input" type="number"
+                                            placeholder="Text input"
+                                            style="background-color: transparent!important; color: white">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <label class="label" style="color: #d6d4d4fc;">เวลา</label>
+                                    <div class="control">
+                                        <input v-model="addTime" class="input" type="number" placeholder="Text input"
+                                            style="background-color: transparent!important; color: white">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center; padding-top: 2%;">
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button" id="btn-add" @click="submitadd()"
+                                            style="font-family: 'Chakra Petch', sans-serif;font-weight: bold;">ADD</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box" id="box-cen-ce">
+                        <div class="columns" style=" border-bottom: 5px solid rgba(0, 0, 0, 0.5);">
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <label class="label" style="color: #d6d4d4fc;">ชื่อเครื่องใช้ไฟฟ้า</label>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <label class="label" style="color: #d6d4d4fc;">กำลังไฟ (วัตต์)</label>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <label class="label" style="color: #d6d4d4fc;">จำนวน</label>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <label class="label" style="color: #d6d4d4fc;">เวลา</label>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <label class="label" style="color: #d6d4d4fc;">ยูนิต/เดือน</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns" v-for="value in electic" :key="value"
+                            style=" border-bottom: 1px solid rgba(0, 0, 0, 0.5);">
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <div class="control">
+                                        <p class="subtitle" style="color: #d6d4d4fc;">{{'{{value.name}}'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <div class="control">
+                                        <p class="subtitle" style="color: #d6d4d4fc;">{{'{{value.power}}'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <div class="control">
+                                        <p class="subtitle" style="color: #d6d4d4fc;">{{'{{value.quantity}}'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <div class="control">
+                                        <p class="subtitle" style="color: #d6d4d4fc;">{{'{{value.Time}}'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column" style="text-align: center;">
+                                <div class="field">
+                                    <div class="control">
+                                        <p class="subtitle" style="color: #d6d4d4fc;">{{'{{value.unit}}'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column" style="text-align: center;">
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button" id="btn-cal" @click="calprice()"
+                                        style="font-family: 'Chakra Petch', sans-serif;">คำนวนค่าไฟฟ้า</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const { createApp } = Vue
+        createApp({
+            name: "CalElectic",
+            data() {
+                return {
+                    electic: [],
+                    idCounter: 0,
+                    addname: "",
+                    addpower: 0,
+                    addquantity: 0,
+                    addTime: 0,
+                    showmodal: false,
+                    sumunit: 0,
+                    price: 0,
+                }
+            },
+            created() {
+                this.idCounter = this.electic.length;
+                this.electic.forEach(val => this.sumunit += val.unit)
+            },
+            methods: {
+                addList() {
+                    console.log(this.showmodal);
+                    this.showmodal = true;
+                },
+                submitadd() {
+                    this.idCounter += 1
+                    if (this.addname === "" || this.addpower === 0 || this.addquantity === 0 || this.addTime === 0) {
+                        alert('Please enter name')
+                    } else {
+                        const calunit = this.addpower * this.addquantity / 1000 * this.addTime * 30
+                        this.sumunit += calunit
+                        const newlist = {
+                            id: this.idCounter,
+                            name: this.addname,
+                            power: this.addpower,
+                            quantity: this.addquantity,
+                            Time: this.addTime,
+                            unit: calunit,
+                        }
+                        this.electic.push(newlist)
+                        this.showmodal = false;
+                    }
+                },
+                calprice() {
+                    if (this.sumunit <= 15) {
+                        this.price = this.sumunit * 2.35
+                    } else if (this.sumunit <= 25) {
+                        this.price = (this.sumunit - 15) * 3 + 23.5
+                    } else if (this.sumunit <= 35) {
+                        this.price = (this.sumunit - 25) * 3.24 + 53.5
+                    } else if (this.sumunit <= 100) {
+                        this.price = (this.sumunit - 35) * 3.62 + 85.9
+                    } else if (this.sumunit <= 150) {
+                        this.price = (this.sumunit - 100) * 3.71 + 321.2
+                    } else if (this.sumunit <= 400) {
+                        this.price = (this.sumunit - 150) * 4.22 + 506.7
+                    } else {
+                        this.price = (this.sumunit - 400) * 4.42 + 1561.7
+                    }
+                }
+            }
+        }).mount('#app')
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            list-style: none;
+            text-decoration: none;
+            font-family: 'Chakra Petch', sans-serif;
+        }
+
+        /* body {
+            background-image: linear-gradient(to bottom,
+                    rgba(18, 18, 17, 0.5),
+                    rgba(220, 228, 199, 0.5)), url("../assets/bg_1.jpg");
+            height: 100%;
+            width: 100%;
+            background-size: cover;
+            min-height: 100%;
+            min-width: 1024px;
+            width: 100%;
+            height: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+        } */
+
+        #test {
+            height: 100%;
+            width: 100%;
+            background-size: cover;
+            min-height: 100%;
+            min-width: 1024px;
+            width: 100%;
+            height: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .logo {
+            color: #fff;
+            text-transform: uppercase;
+            text-align: center;
+            cursor: pointer;
+            padding-top: 15px;
+            transition: rotate 1s;
+        }
+
+        .logo:hover {
+            rotate: 180deg;
+        }
+
+        .main_content {
+            width: 100%;
+        }
+
+        #box-calelec {
+            font-size: 20px;
+        }
+
+        #info-calelec {
+            margin-top: 5%;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
+        #btn-add-list {
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            float: right;
+            padding-right: 10px;
+        }
+
+        #box-cen-ce {
+            background-color: #3c34349e;
+            border: 6px solid rgba(0, 0, 0, 0.5);
+            margin-bottom: 100px;
+        }
+
+        #btn-add {
+            background-color: #d06467fc;
+            border: 4px solid rgba(22, 3, 3, 0.298);
+            opacity: 1;
+        }
+
+        #btn-add:hover {
+            opacity: 0.7;
+
+        }
+
+        #btn-cal {
+            background-color: #1a1a25fc;
+            border: 4px solid rgba(210, 208, 208, 0.298);
+            color: white;
+        }
+
+        #btn-cal:hover {
+            background-color: #90b09dfc;
+            border: 4px solid rgba(22, 3, 3, 0.298);
+            color: black;
+        }
+
+        #box-top-ce {
+            background-color: #3a3c349e;
+            border: 6px solid rgba(46, 53, 47, 0.811);
+            color: #d6d4d4fc
+        }
+    </style>
+</body>
+
+</html>
