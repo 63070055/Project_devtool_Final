@@ -5,23 +5,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-
-
   <!-- vue script -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
   <title>Home</title>
 </head>
 
 <body>
-  <img id="test" src="{{ url_for('static', filename='assets/bg_1.jpg') }}" alt=""/>
+  <img id="bg-home" src="{{ url_for('static', filename='assets/bg_1.jpg') }}" alt="" />
   <div id="app">
     <div class="wrapper">
       <div class="main_content">
         <div class="header">
-          <h2 class="logo">
+          <div class="logo">
             <img src="{{ url_for('static', filename='assets/logo_1.png') }}" alt="" width="60" height="60" />
-          </h2>
+          </div>
+          <button id="btnTrick">
+            <img id="icon-trick" src="{{ url_for('static', filename='assets/trick.png') }}" alt="" width="40"
+              height="40" />
+            <p style="font-family: 'Chakra Petch', sans-serif; color: #f5f28c; font-size: 14; padding-top: 10px;">
+              ทริคการประหยัดค่าไฟ
+            </p>
+          </button>
         </div>
         <div class="info" id="info-home">
           <p class="name-home" style="font-size: 80px; color: antiquewhite;">ET ENERGY</p>
@@ -56,6 +60,59 @@
         </div>
       </div>
     </div>
+    <div id="myModal" class="modal" style="background-color: #000000b7;">
+      <div class="modal-content" id="trick-home">
+        <div class="columns" style="padding-left: 100%">
+          <span class="close">&times;</span>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <p style="font-size: 40px; font-weight: bold; text-align: center">ทริคการประหยัดไฟแบบง่าย ๆ</p>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <div class="box" style="background-color: beige; border-radius: 2px;">
+              <p id="box-h" style="border-top: 1px solid rgb(138, 138, 138);"></p>
+              <p id="box-h"
+                style="font-size: 18px; font-weight: 100; border-bottom: 1px solid rgb(138, 138, 138); border-top: 1px solid rgb(138, 138, 138); padding-bottom: 4px; padding-top: 4px;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;รู้หรือไม่ว่าการประหยัดพลังงานไฟฟ้าเป็นเรื่องสำคัญที่สามารถช่วยลดค่าใช้จ่ายและลดการใช้งานพลังงานที่มีผลต่อ
+              </p>
+              <p id="box-h"
+                style="font-size: 18px; font-weight: 100; border-bottom: 1px solid rgb(138, 138, 138); padding-bottom: 4px; padding-top: 4px; margin-bottom: 20px;">
+                สิ่งแวดล้อมได้ เราจึงได้รวบรวมบางทริกเกี่ยวกับการประหยัดไฟฟ้าที่อาจจะมีประโยชน์สำหรับคุณ</p>
+              <div class="columns" style="text-align: center; font-size: 14px; font-weight: bold;">
+                <div class="column">
+                  <img style="padding-bottom: 5px;" src="{{ url_for('static', filename='assets/img1.jpg') }}" alt="" />
+                  <br />
+                  เปิดหน้าต่างรับลม รับแสงธรรมชาติ
+                </div>
+                <div class="column">
+                  <img style="padding-bottom: 5px;" src="{{ url_for('static', filename='assets/img2.jpg') }}" alt="" />
+                  <br />
+                  ซักรีดเสื้อผ้าในคราวเดียว
+                </div>
+                <div class="column">
+                  <img style="padding-bottom: 5px;" src="{{ url_for('static', filename='assets/img3.jpg') }}" alt="" />
+                  <br />
+                  ปิดเครื่องใช้ไฟฟ้าและถอดปลั๊กเมื่อไม่ใช้งาน
+                </div>
+              </div>
+              <p id="box-h"
+                style="font-size: 18px; font-weight: 100; border-bottom: 1px solid rgb(138, 138, 138); border-top: 1px solid rgb(138, 138, 138); padding-bottom: 4px; padding-top: 4px;">
+                และยังมีการประหยัดไฟอีกมากมายเช่น การเลือกใช้หลอดไฟ LED แทนหลอดไฟธรรมดา หรือ การเลือกใช้เครื่องใช้ไฟฟ้า
+              </p>
+              <p id="box-h"
+                style="font-size: 18px; font-weight: 100; border-bottom: 1px solid rgb(138, 138, 138); padding-bottom: 4px; padding-top: 4px;">
+                ที่ติดฉลากประหยัดไฟฟ้าเบอร์ 5 ลองนำวิธีการเหล่านี้ไปทำตามกันดูแล้วคุณจะสามารถลดค่าไฟของคุณได้</p>
+              <p id="box-h" style="border-bottom: 1px solid rgb(138, 138, 138);"></p>
+              <p id="box-h" style="border-bottom: 1px solid rgb(138, 138, 138);"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
   <script>
     const { createApp } = Vue
@@ -74,7 +131,23 @@
         }
       }
     }).mount('#app')
+
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("btnTrick");
+    var span = document.getElementsByClassName("close")[0];
+    btn.onclick = function () {
+      modal.style.display = "block";
+    }
+    span.onclick = function () {
+      modal.style.display = "none";
+    }
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
   </script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap');
 
@@ -86,18 +159,19 @@
       text-decoration: none;
       font-family: 'Chakra Petch', sans-serif;
     }
-    #test{
 
+    #bg-home {
       height: 100%;
       width: 100%;
       background-size: cover;
       position: fixed;
       z-index: -1;
     }
-    body{
+
+    body {
       background: linear-gradient(to bottom,
-                    rgba(18, 18, 17, 0.5),
-                    rgba(220, 228, 199, 0.5));
+          rgba(18, 18, 17, 0.5),
+          rgba(220, 228, 199, 0.5));
     }
 
     .logo {
@@ -143,13 +217,81 @@
     .pic-bl {
       transform: scale(1);
       transition: transform 1s;
-      /* text-align: center; */
       opacity: 0.6;
     }
 
     .pic-bl:hover {
       transform: scale(1.1);
       opacity: 0.7;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    #btnTrick {
+      background-color: #00000000;
+      border: 0px;
+      cursor: pointer;
+      position: fixed;
+      right: 2%;
+      top: 3%;
+    }
+
+    #trick-home {
+      background-color: #fff9ca;
+      border: 6px solid rgb(141, 144, 108);
+      width: 50%;
+      border-radius: 5px;
+    }
+
+    #box-h {
+      text-align: left;
+      font-size: 30px;
+      font-weight: bold;
+      padding-bottom: 30px;
+    }
+
+    #icon-trick {
+      transition: transform 1s;
+      transform: scale(1, 1);
+    }
+
+    #icon-trick:hover {
+      cursor: pointer;
+      transform: scale(1.8, 1.3);
     }
   </style>
 </body>
