@@ -4,7 +4,7 @@ services:
 
   frontend:
     build: ./Frontend
-    image: 63070055/webfrontend:1.0
+    image: 63070055/frontend:2.0
     ports:
       - "8081:8081"
  
