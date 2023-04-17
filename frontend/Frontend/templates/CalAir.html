@@ -1,4 +1,99 @@
- style="font-size: 20px; color: rgb(50, 50, 50);">จำนวนการใช้งาน
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+    <!-- vue script -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <title>CalAir</title>
+</head>
+
+<body>
+    <img id="bg-cal-air" src="{{ url_for('static', filename='assets/bg_1.jpg') }}" alt="" />
+    <div id="app">
+        <div class="wrapper">
+            <div class="main_content">
+                <div class="header">
+                    <router-link to="/">
+                        <div class="logo">
+                            <a href="Home.html">
+                                <img src="{{ url_for('static', filename='assets/logo_1.png') }}" alt="" width="60"
+                                    height="60" /></a>
+                        </div>
+                    </router-link>
+                </div>
+                <div class="info">
+                    <div class="columns">
+                        <div class="column is-5 is-offset-1">
+                            <div class="box" id="box-main-ca">
+                                <p id="box-p" style="font-size: 40px; color: rgb(50, 50, 50);">กำหนดค่า</p>
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label" style="font-size: 20px; color: rgb(50, 50, 50);">ค่า
+                                                BTU</label>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="control">
+                                                <div class="select">
+                                                    <select v-model="Btu"
+                                                        style="background-color: transparent!important; color: black; border: 2px solid rgba(0, 0, 0, 0.5);">
+                                                        <option value="9000">9000</option>
+                                                        <option value="12000">12000</option>
+                                                        <option value="15000">15000</option>
+                                                        <option value="18000">18000</option>
+                                                        <option value="20400">20400</option>
+                                                        <option value="22000">22000</option>
+                                                        <option value="24000">24000</option>
+                                                        <option value="25000">25000</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label"
+                                                style="font-size: 20px; color: rgb(50, 50, 50);">อุณหภูมิภายในห้อง</label>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label"
+                                                style="font-size: 20px; color: rgb(50, 50, 50);">26</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label"
+                                                style="font-size: 20px; color: rgb(50, 50, 50);">อุณหภูมิภายนอกห้อง</label>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="control">
+                                                <input v-model="temperatureOut" class="input" type="text"
+                                                    placeholder="Text input"
+                                                    style="background-color: transparent!important; color: black; border: 2px solid rgba(0, 0, 0, 0.5);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field">
+                                            <label class="label"
+                                                style="font-size: 20px; color: rgb(50, 50, 50);">จำนวนการใช้งาน
                                                 ชั่วโมงต่อวัน</label>
                                         </div>
                                     </div>
